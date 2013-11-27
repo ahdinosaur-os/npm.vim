@@ -21,7 +21,7 @@ As usual, to build help:
 
     :Npm <command> [options..]
 
-Calls `npm <command> [options]`.
+Calls `npm <command> [options]`. Commands can be tab-completed.
 
 ##Global Settings
 

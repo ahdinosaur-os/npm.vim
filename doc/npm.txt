@@ -13,7 +13,7 @@ Global Commands
 
 :Npm <command> [options..]                                              *:Npm*
 
-Calls `npm <command> [options]`.
+Calls `npm <command> [options]`. Commands can be tab-completed.
 
 =============================================================================
 Global Settings                                                 *npm-settings* 
