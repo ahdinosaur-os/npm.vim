@@ -44,13 +44,13 @@ function! g:npm(...)
     call s:npm_command(a:000[0], a:000[1:])
   else
     call s:npm_command('help', [])
-  end
+  endif
 endfunction
 
 function! s:npm_command(cmd, args)
   let cmd = join(['npm', a:cmd] + map(a:args, 'shellescape(v:val)'), ' ')
   let out = system(cmd)
-  if ! g:npm_background
+  if !g:npm_background
     echo out
   endif
 endfunction
