@@ -1,4 +1,4 @@
-*npm.txt* npm.vim: Run NPM commands in Vim.
+*npm.txt* npm.vim: Run NPM commands in Vim (0.1.1).
           For Vim version 7.x
           By Thomas Allen <thomas@oinksoft.com>
 
@@ -24,15 +24,6 @@ g:npm_background = 1
 
 If set to non-zero, runs all commands in background (so you lose their
 output).
-
-Overridden by g:npm_foreground.
-                                                            *g:npm_foreground*
-g:npm_background = 1
-
-If set to non-zero, runs commands in foreground. This is the default and is
-best for long-running commands like "npm install".
-
-Overrides g:npm_background
 
                                                        *g:npm_custom_commands*
 g:npm_custom_commands = []

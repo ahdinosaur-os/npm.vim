@@ -1,7 +1,7 @@
 " File: npm.vim
 " Description: Tab completion for NPM commands.
 " Author: Thomas Allen <thomas@oinksoft.com>
-" Version: 0.1.0
+" Version: 0.1.1
 
 " Copyright (c) 2013 Oinksoft <https://oinksoft.com/>
 " 
@@ -34,15 +34,7 @@ let g:npm_loaded = 1
 
 " If set to non-zero, runs all commands in background (so you lose their
 " output).
-"
-" Overridden by g:npm_foreground.
-let g:npm_background = 1
-
-" If set to non-zero, runs commands in foreground. This is the default and is
-" best for long-running commands like "npm install".
-"
-" Overrides g:npm_background
-let g:npm_foreground = 1
+let g:npm_background = 0
 
 " If some NPM commands aren't being picked up, add them with this list.
 let g:npm_custom_commands = []
@@ -51,20 +43,15 @@ function! g:npm(...)
   if len(a:000)
     call s:npm_command(a:000[0], a:000[1:])
   else
-    call s:npm_command('help', a:000[1:])
+    call s:npm_command('help', [])
   end
 endfunction
 
 function! s:npm_command(cmd, args)
   let cmd = join(['npm', a:cmd] + map(a:args, 'shellescape(v:val)'), ' ')
-  if g:npm_foreground
-    exec '!' . cmd
-  else
-    let out = system(cmd)
-    if ! g:npm_background
-      echo out
-    endif
-    system(cmd)
+  let out = system(cmd)
+  if ! g:npm_background
+    echo out
   endif
 endfunction
 
@@ -95,7 +82,7 @@ function! s:load_npm_commands()
         call add(lines, line)
       endif
     endfor
-    let joined = join(map(lines, 'substitute(v:val, ",", "\\n", "g")'), "\n")
+    let joined = join(map(lines, 'substitute(v:val, ",", "\n", "g")'), "\n")
     return filter(
           \map(split(joined, "\n"),
             \'substitute('

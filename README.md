@@ -30,15 +30,6 @@ Calls `npm <command> [options]`. Commands can be tab-completed.
 If set to non-zero, runs all commands in background (so you lose their
 output).
 
-Overridden by g:npm\_foreground.
-
-    g:npm_background = 1
-
-If set to non-zero, runs commands in foreground. This is the default and is
-best for long-running commands like "npm install".
-
-Overrides g:npm\_background
-
     g:npm_custom_commands = []
 
 If some NPM commands aren't being picked up, add them to this list.
