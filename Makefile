@@ -1,5 +1,4 @@
-# This Makefile uses GNU extensions, and thus must be run with a copy of
-# GNU Make.
+# This Makefile uses GNU extensions and must be run with a copy of GNU Make.
 
 npm.vim.zip: npm.vim
 	zip -r $@ $<
