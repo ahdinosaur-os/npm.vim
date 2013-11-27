@@ -16,7 +16,7 @@ Global Commands
 Calls `npm <command> [options]`. Commands can be tab-completed.
 
 =============================================================================
-Global Settings                                                 *npm-settings* 
+Global Settings                                                 *npm-settings*
 
 
                                                             *g:npm_background*

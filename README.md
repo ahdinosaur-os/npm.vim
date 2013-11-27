@@ -7,7 +7,7 @@ For Vim version 7.x.
 
 ## Installation
 
-[Download npm.vim.zip from vim.org](http://www.vim.org/scripts/script.php?script_id=4783). 
+[Download npm.vim.zip from vim.org](http://www.vim.org/scripts/script.php?script_id=4783).
 
     unzip npm.vim.zip
     cp npm.vim.zip/doc/npm.txt ~/.vim/doc/
