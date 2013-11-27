@@ -25,7 +25,7 @@ Calls `npm <command> [options]`. Commands can be tab-completed.
 
 ##Global Settings
 
-    g:npm_background = 1
+    g:npm_background = 0
 
 If set to non-zero, runs all commands in background (so you lose their
 output).
