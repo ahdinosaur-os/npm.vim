@@ -45,15 +45,19 @@ call s:defsetting('g:npm_background', 0)
 " If some NPM commands aren't being picked up, add them with this list.
 call s:defsetting('g:npm_custom_commands', [])
 
+" If set to non-zero, commands for tab completion are loaded at startup rather
+" than the first time completion is needed.
+call s:defsetting('g:npm_load_commands', 0)
+
 function! g:npm(...)
   if len(a:000)
-    call s:npm_command(a:000[0], a:000[1:])
+    call s:command(a:000[0], a:000[1:])
   else
-    call s:npm_command('help', [])
+    call s:command('help', [])
   endif
 endfunction
 
-function! s:npm_command(cmd, args)
+function! s:command(cmd, args)
   let cmd = join(['npm', a:cmd] + map(a:args, 'shellescape(v:val)'), ' ')
   let out = system(cmd)
   if !g:npm_background
@@ -62,29 +66,33 @@ function! s:npm_command(cmd, args)
 endfunction
 
 function! g:npm_complete(arg_lead, cmd_lead, cursor_pos)
-  if !exists('g:npm_commands')
-    let g:npm_commands = s:load_npm_commands()
-  endif
+  call s:ensure_commands_loaded()
   let commands = copy(g:npm_commands + g:npm_custom_commands)
   return filter(commands, 'v:val =~ "^' . a:arg_lead . '"')
 endfunction
 
-function! s:load_npm_commands()
+function! s:ensure_commands_loaded()
+  if !exists('g:npm_commands')
+    let g:npm_commands = s:get_commands()
+  endif
+endfunction
+
+function! s:get_commands()
   let npm_help = system('npm help')
   if v:shell_error != 0
     " Report an error here?
     return []
   else
-    " This is so much simpler with sed :^(
     let lines = []
     let in_commands = 0
     for line in split(npm_help, '\n')
-      if line =~ '^where <command>'
-        let in_commands = 1
-      elseif in_commands
+      if in_commands
         if line =~ '^$'
           break
         endif
+        call add(lines, line)
+      elseif line =~ '^\s'
+        let in_commands = 1
         call add(lines, line)
       endif
     endfor
@@ -100,3 +108,7 @@ endfunction
 
 " Usage: :Npm <command> [args...]
 command! -complete=customlist,g:npm_complete -nargs=* Npm :call g:npm(<f-args>)
+
+if g:npm_load_commands
+  call s:ensure_commands_loaded()
+endif

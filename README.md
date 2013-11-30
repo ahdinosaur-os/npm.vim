@@ -34,6 +34,11 @@ output).
 
 If some NPM commands aren't being picked up, add them to this list.
 
+    g:npm_load_commands = 0
+
+If set to non-zero, commands for tab completion are loaded at startup rather
+than the first time completion is needed.
+
 ##License
 
 npm.vim is released under the MIT license. See the comments at the head of
