@@ -1,7 +1,7 @@
 " File: npm.vim
 " Description: Tab completion for NPM commands.
 " Author: Thomas Allen <thomas@oinksoft.com>
-" Version: 0.1.1
+" Version: 0.1.2
 
 " Copyright (c) 2013 Oinksoft <https://oinksoft.com/>
 "
@@ -32,12 +32,18 @@ let g:npm_loaded = 1
 
 " Settings
 
+function! s:defsetting(name, default)
+  if !exists(a:name)
+    exec 'let ' . a:name . ' = ' . string(a:default)
+  endif
+endfunction
+
 " If set to non-zero, runs all commands in background (so you lose their
 " output).
-let g:npm_background = 0
+call s:defsetting('g:npm_background', 0)
 
 " If some NPM commands aren't being picked up, add them with this list.
-let g:npm_custom_commands = []
+call s:defsetting('g:npm_custom_commands', [])
 
 function! g:npm(...)
   if len(a:000)
