@@ -24,11 +24,11 @@
 " TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 " SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if exists('g:npm_loaded')
+if exists('s:npm_loaded')
   finish
 endif
 
-let g:npm_loaded = 1
+let s:npm_loaded = 1
 
 " Settings
 
@@ -40,16 +40,16 @@ endfunction
 
 " If set to non-zero, runs all commands in background (so you lose their
 " output).
-call s:defsetting('g:npm_background', 0)
+call s:defsetting('s:npm_background', 0)
 
 " If some NPM commands aren't being picked up, add them with this list.
-call s:defsetting('g:npm_custom_commands', [])
+call s:defsetting('s:npm_custom_commands', [])
 
 " If set to non-zero, commands for tab completion are loaded at startup rather
 " than the first time completion is needed.
-call s:defsetting('g:npm_load_commands', 0)
+call s:defsetting('s:npm_load_commands', 0)
 
-function! g:npm(...)
+function! s:npm(...)
   if len(a:000)
     call s:command(a:000[0], a:000[1:])
   else
@@ -60,20 +60,20 @@ endfunction
 function! s:command(cmd, args)
   let cmd = join(['npm', a:cmd] + map(a:args, 'shellescape(v:val)'), ' ')
   let out = system(cmd)
-  if !g:npm_background
+  if !s:npm_background
     echo out
   endif
 endfunction
 
-function! g:npm_complete(arg_lead, cmd_lead, cursor_pos)
+function! s:npm_complete(arg_lead, cmd_lead, cursor_pos)
   call s:ensure_commands_loaded()
-  let commands = copy(g:npm_commands + g:npm_custom_commands)
+  let commands = copy(s:npm_commands + s:npm_custom_commands)
   return filter(commands, 'v:val =~ "^' . a:arg_lead . '"')
 endfunction
 
 function! s:ensure_commands_loaded()
-  if !exists('g:npm_commands')
-    let g:npm_commands = s:get_commands()
+  if !exists('s:npm_commands')
+    let s:npm_commands = s:get_commands()
   endif
 endfunction
 
@@ -107,8 +107,8 @@ function! s:get_commands()
 endfunction
 
 " Usage: :Npm <command> [args...]
-command! -complete=customlist,g:npm_complete -nargs=* Npm :call g:npm(<f-args>)
+command! -complete=customlist,s:npm_complete -nargs=* Npm :call s:npm(<f-args>)
 
-if g:npm_load_commands
+if s:npm_load_commands
   call s:ensure_commands_loaded()
 endif
